@@ -28,10 +28,8 @@ public class DataLoader {
                     break;
             }
             fr.close();
-            Arrays.stream(sb.toString().split("\r\n"))
-                    .forEach(row -> {
-                        bookList.add(new Book(row));
-                    });
+            Arrays.stream(sb.toString().split("\\$"))
+                    .forEach(str->bookList.add(new Book(str)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,15 +38,9 @@ public class DataLoader {
     public void saveData() {
         try {
             FileWriter fw = new FileWriter(bookListSourceFile);
-            bookList.stream()
-                    .map(book -> book.toString() + "\r\n")
-                    .forEach(row -> {
-                        try{
-                            fw.write(row);
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                    });
+            fw.write(String.join("$",bookList.stream()
+                                                .map(Book::toString)
+                                                .toArray(String[]::new)));
             fw.flush();
             fw.close();
         } catch (Exception e) {

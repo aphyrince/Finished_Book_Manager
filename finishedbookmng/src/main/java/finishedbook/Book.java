@@ -1,27 +1,29 @@
 package finishedbook;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Book {
     private String title;
-    private Date date;
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy.mm.dd");
+    private LocalDate date;
 
     public Book(String rawData) {
-        String[] tmpStr = rawData.split(",");
-        title = tmpStr[0];
-        if (tmpStr.length >= 2)
-            setDate(tmpStr[1]);
+        String[] tmpStr = rawData.trim().split("\\|");
+        title = tmpStr[0].trim();
+        if(tmpStr[1].equals("null"))
+            date = null;
+        else
+            date = LocalDate.parse(tmpStr[1]);
     }
 
-    public Book(String title, Date date) {
+    public Book(String title, LocalDate date) {
         this.title = title;
         this.date = date;
     }
 
     public String toString() {
-        return title+","+sdf.format(date);
+        if(date == null)
+            return title+"|null";
+        return title+"|"+date;
     }
 
     public String getTitle() {
@@ -32,22 +34,11 @@ public class Book {
         this.title = title;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public void setDate(String rawDate) {
-        if (rawDate.equals("null"))
-            date = null;
-        try {
-            sdf.parse(rawDate);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
