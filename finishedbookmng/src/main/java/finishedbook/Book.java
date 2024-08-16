@@ -7,12 +7,12 @@ public class Book {
     private LocalDate date;
 
     public Book(String rawData) {
-        String[] tmpStr = rawData.trim().split("\\|");
+        String[] tmpStr = rawData.trim().split(":");
         title = tmpStr[0].trim();
-        if(tmpStr[1].equals("null"))
-            date = null;
-        else
+        if (tmpStr[1].matches(".*[0-9]{4}-[0-9]{2}-[0-9]{2}"))
             date = LocalDate.parse(tmpStr[1]);
+        else
+            date = null;
     }
 
     public Book(String title, LocalDate date) {
@@ -21,9 +21,9 @@ public class Book {
     }
 
     public String toString() {
-        if(date == null)
-            return title+"|null";
-        return title+"|"+date;
+        if (date == null)
+            return title + ":null";
+        return title + ":" + date;
     }
 
     public String getTitle() {

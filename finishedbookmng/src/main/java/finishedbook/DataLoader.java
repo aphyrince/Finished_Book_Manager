@@ -1,6 +1,7 @@
 package finishedbook;
 
 import java.util.List;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,13 +24,13 @@ public class DataLoader {
             char[] cbuf = new char[1024];
             while (true) {
                 int readLen = fr.read(cbuf);
-                sb.append(new String(cbuf));
                 if (readLen == -1)
                     break;
+                sb.append(new String(cbuf, 0, readLen));
             }
             fr.close();
-            Arrays.stream(sb.toString().split("\\$"))
-                    .forEach(str->bookList.add(new Book(str)));
+            Arrays.stream(sb.toString().split("\n"))
+                    .forEach(str -> bookList.add(new Book(str)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,9 +39,9 @@ public class DataLoader {
     public void saveData() {
         try {
             FileWriter fw = new FileWriter(bookListSourceFile);
-            fw.write(String.join("$",bookList.stream()
-                                                .map(Book::toString)
-                                                .toArray(String[]::new)));
+            fw.write(String.join("\n", bookList.stream()
+                    .map(Book::toString)
+                    .toArray(String[]::new)));
             fw.flush();
             fw.close();
         } catch (Exception e) {
