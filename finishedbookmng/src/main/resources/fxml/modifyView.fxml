@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="500.0" style="-fx-background-color: white" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finishedbook.ModifyViewController" >
+   <children>
+      <TextField id="titleTextField" fx:id="titleTextField" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="319.0" promptText="제목">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <DatePicker id="datePicker" fx:id="datePicker" layoutX="336.0" layoutY="10.0" prefHeight="50.0" prefWidth="150.0" promptText="날짜" />
+      <Button  fx:id="applyButton" layoutX="426.0" layoutY="78.0" mnemonicParsing="false" onAction="#applyButtonFunc" prefHeight="60.0" prefWidth="60.0" text="적용" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button  fx:id="cancelButton1" layoutX="336.0" layoutY="78.0" mnemonicParsing="false" onAction="#cancelButtonFunc" prefHeight="60.0" prefWidth="60.0" text="취소" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

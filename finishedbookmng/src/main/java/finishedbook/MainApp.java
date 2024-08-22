@@ -22,21 +22,23 @@ public class MainApp extends Application {
     private AnchorPane rootPane;
     public ListViewController listViewController;
     public AddViewController addViewController;
+    public ModifyViewController modifyViewController;
 
     @SuppressWarnings("exports")
     public Parent listView;
     @SuppressWarnings("exports")
     public Parent addView;
+    @SuppressWarnings("exports")
+    public Parent modifyView;
 
 
     @Override
     public void start(@SuppressWarnings("exports") Stage s) throws IOException {
         loadListView("listView");
         loadAddView("addView");
+        loadModifyView("modifyView");
         loadDataLoader("bookList");
 
-        listViewController.setMainApp(this);
-        addViewController.setMainApp(this);
         
         this.rootPane = new AnchorPane();
         rootPane.setPrefSize(500, 700);
@@ -67,17 +69,39 @@ public class MainApp extends Application {
         this.addViewController = fxmlLoader.getController();
         this.addViewController.setMainApp(this);
     }
+    private void loadModifyView(String modifyViewName) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/fxml/" + modifyViewName + ".fxml"));
+        this.modifyView = fxmlLoader.load();
+        this.modifyViewController = fxmlLoader.getController();
+        this.modifyViewController.setMainApp(this);
+    }
     private void loadDataLoader(String fileName){
         this.dataLoader = new DataLoader(System.getProperty("user.dir") + "/src/data/"+fileName+".txt");
         this.dataLoader.loadData();
         this.bookList = dataLoader.getBookList();
     }
 
-    public void showAddView(){
-        Platform.runLater(()->rootPane.getChildren().add(addView));
+    public void showView(@SuppressWarnings("exports") Parent view){
+        Platform.runLater(()->rootPane.getChildren().add(view));
     }
-    public void hideAddView(){
-        Platform.runLater(()->rootPane.getChildren().remove(addView));
+    public void hideView(@SuppressWarnings("exports") Parent view){
+        Platform.runLater(()->rootPane.getChildren().remove(view));
+    }
+
+    public void addBook(Book book){
+        bookList.add(book);
+    }
+    public void removeBook(Book book){
+        Book targetBook = null;
+        for(Book tmpBook : bookList){
+            if(tmpBook.getTitle().equals(book.getTitle())){
+                targetBook = tmpBook;
+                break;
+            }
+        }
+        if(targetBook!= null){
+            bookList.remove(targetBook);
+        }
     }
 
     @Override
